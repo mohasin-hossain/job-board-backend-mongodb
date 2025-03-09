@@ -536,4 +536,3 @@ mongosh job-board --eval "db.dropDatabase()"
 - Verify connection string in .env file
 - Check for duplicate document IDs
 - Validate all request bodies match Zod schemas
-```
