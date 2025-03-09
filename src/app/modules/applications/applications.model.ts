@@ -1,5 +1,4 @@
 import { Schema, model } from 'mongoose';
-import { JobModel } from '../jobs/jobs.model';
 import { IApplication } from './applications.interface';
 
 const ApplicationSchema = new Schema<IApplication>({

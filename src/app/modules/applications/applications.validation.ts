@@ -3,9 +3,8 @@ import { z } from 'zod';
 const createApplicationValidationSchema = z.object({
   body: z.object({
     job_id: z
-      .number({ required_error: 'Job ID is required' })
-      .int('Job ID must be an integer')
-      .positive('Job ID must be a positive number'),
+      .string({ required_error: 'Job ID is required' })
+      .min(1, 'Job ID is required'),
 
     applicant_name: z
       .string({ required_error: 'Applicant name is required' })

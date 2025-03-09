@@ -10,7 +10,7 @@ const createApplication = catchAsync(async (req: Request, res: Response) => {
   const { job_id } = req.body;
 
   // Check if job exists first
-  await checkJobExists(Number(job_id));
+  await checkJobExists(job_id);
 
   const application = await ApplicationService.createApplicationIntoDB(
     req.body,
@@ -29,7 +29,7 @@ const getAllApplicationsByJobId = catchAsync(
     const jobId = req.params.job_id;
 
     // Check if job exists first
-    await checkJobExists(Number(jobId));
+    await checkJobExists(jobId);
 
     const applications =
       await ApplicationService.getAllApplicationsByJobIdFromDB(jobId);
