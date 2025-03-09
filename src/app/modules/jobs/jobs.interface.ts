@@ -1,7 +1,6 @@
 import { IApplication } from "../applications/applications.interface";
 
 export type IJob = {
-  id?: number;
   title: string;
   description: string;
   company: string;

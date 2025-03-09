@@ -1,32 +1,33 @@
-// import pool from '../../config/database';
-// import { IJob } from './jobs.interface';
+import { Schema, model } from 'mongoose';
+import { IJob } from './jobs.interface';
 
-// const create = async (job: IJob): Promise<IJob> => {
-//   const { rows } = await pool.query(
-//     `INSERT INTO jobs (title, description, company, location)
-//          VALUES ($1, $2, $3, $4) RETURNING *`,
-//     [job.title, job.description, job.company, job.location],
-//   );
-//   return rows[0];
-// };
+const JobSchema = new Schema<IJob>({
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  company: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
+  },
+  applications: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Application',
+    },
+  ],
+});
 
-// const getAll = async (): Promise<IJob[]> => {
-//   const { rows } = await pool.query(
-//     'SELECT * FROM jobs ORDER BY created_at DESC',
-//   );
-//   return rows;
-// };
-
-// const getById = async (id: number): Promise<IJob | null> => {
-//   const parsedId = Number(id);
-//   const { rows } = await pool.query('SELECT * FROM jobs WHERE id = $1', [
-//     parsedId,
-//   ]);
-//   return rows[0] || null;
-// };
-
-// export const JobModel = {
-//   create,
-//   getAll,
-//   getById,
-// };
+export const JobModel = model<IJob>('Job', JobSchema);

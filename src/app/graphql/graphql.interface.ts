@@ -17,7 +17,7 @@ export interface ICreateJobArgs {
 
 export interface ICreateApplicationArgs {
   input: {
-    job_id: number;
+    job_id: string;
     applicant_name: string;
     applicant_email: string;
     cover_letter: string;

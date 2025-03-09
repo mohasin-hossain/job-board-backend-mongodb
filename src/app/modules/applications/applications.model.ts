@@ -1,30 +1,32 @@
-// import pool from '../../config/database';
-// import { IApplication } from './applications.interface';
+import { Schema, model } from 'mongoose';
+import { JobModel } from '../jobs/jobs.model';
+import { IApplication } from './applications.interface';
 
-// const create = async (application: IApplication): Promise<IApplication> => {
-//   const { rows } = await pool.query(
-//     `INSERT INTO applications 
-//        (job_id, applicant_name, applicant_email, cover_letter) 
-//        VALUES ($1, $2, $3, $4) RETURNING *`,
-//     [
-//       application.job_id,
-//       application.applicant_name,
-//       application.applicant_email,
-//       application.cover_letter,
-//     ],
-//   );
-//   return rows[0];
-// };
+const ApplicationSchema = new Schema<IApplication>({
+  job_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'Job',
+    required: true,
+  },
+  applicant_name: {
+    type: String,
+    required: true,
+  },
+  applicant_email: {
+    type: String,
+    required: true,
+  },
+  cover_letter: {
+    type: String,
+    required: true,
+  },
+  submitted_at: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-// const getByJobId = async (jobId: number): Promise<IApplication[]> => {
-//   const { rows } = await pool.query(
-//     'SELECT * FROM applications WHERE job_id = $1',
-//     [jobId],
-//   );
-//   return rows;
-// };
-
-// export const ApplicationModel = {
-//   create,
-//   getByJobId,
-// };
+export const ApplicationModel = model<IApplication>(
+  'Application',
+  ApplicationSchema,
+);

@@ -9,11 +9,6 @@ import { checkJobExists } from '../../utils/jobHelpers';
 const createApplication = catchAsync(async (req: Request, res: Response) => {
   const { job_id } = req.body;
 
-  // Validate Job Id
-  if (!job_id || isNaN(Number(job_id))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Job ID!');
-  }
-
   // Check if job exists first
   await checkJobExists(Number(job_id));
 
@@ -31,12 +26,7 @@ const createApplication = catchAsync(async (req: Request, res: Response) => {
 
 const getAllApplicationsByJobId = catchAsync(
   async (req: Request, res: Response) => {
-    const jobId = Number(req.params.job_id);
-
-    // Validate job ID
-    if (isNaN(jobId)) {
-      throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Job ID!');
-    }
+    const jobId = req.params.job_id;
 
     // Check if job exists first
     await checkJobExists(Number(jobId));

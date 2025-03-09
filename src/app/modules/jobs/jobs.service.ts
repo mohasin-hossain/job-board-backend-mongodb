@@ -6,11 +6,11 @@ const createJobIntoDB = async (jobData: IJob): Promise<IJob> => {
 };
 
 const getAllJobsFromDB = async (): Promise<IJob[]> => {
-  return await JobModel.getAll();
+  return await JobModel.find().sort({ created_at: -1 });
 };
 
-const getJobByIdFromDB = async (id: number): Promise<IJob | null> => {
-  return await JobModel.getById(id);
+const getJobByIdFromDB = async (id: string): Promise<IJob | null> => {
+  return await JobModel.findById(id).populate('applications');
 };
 
 export const JobService = {

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { ApplicationService } from '../modules/applications/applications.service';
 import { JobService } from '../modules/jobs/jobs.service';
 import {
@@ -14,12 +15,12 @@ export const resolvers = {
     },
 
     job: async (_unused: any, args: IJobArgs) => {
-      return await JobService.getJobByIdFromDB(parseInt(args.id));
+      return await JobService.getJobByIdFromDB(args.id);
     },
 
     applications: async (_unused: any, args: IApplicationArgs) => {
       return await ApplicationService.getAllApplicationsByJobIdFromDB(
-        parseInt(args.job_id),
+        args.job_id,
       );
     },
   },
@@ -33,7 +34,10 @@ export const resolvers = {
       const job = await JobService.getJobByIdFromDB(args.input.job_id);
       if (!job) throw new Error('Job not found');
 
-      return await ApplicationService.createApplicationIntoDB(args.input);
+      return await ApplicationService.createApplicationIntoDB({
+        ...args.input,
+        job_id: new mongoose.Types.ObjectId(args.input.job_id),
+      });
     },
   },
 

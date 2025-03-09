@@ -11,7 +11,7 @@ export const typeDefs = `#graphql
 
   type Application {
     id: ID!
-    job_id: Int!
+    job_id: ID!
     applicant_name: String!
     applicant_email: String!
     cover_letter: String!
@@ -26,7 +26,7 @@ export const typeDefs = `#graphql
   }
 
   input ApplicationInput {
-    job_id: Int!
+    job_id: ID!
     applicant_name: String!
     applicant_email: String!
     cover_letter: String!

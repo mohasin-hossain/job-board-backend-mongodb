@@ -28,12 +28,12 @@ const getAllJobs = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getJobById = catchAsync(async (req: Request, res: Response) => {
-  const jobId = Number(req.params.id);
+  const jobId = req.params.id;
 
-  // Validate job ID
-  if (isNaN(jobId)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Job ID!');
-  }
+  // // Validate job ID
+  // if (isNaN(jobId)) {
+  //   throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Job ID!');
+  // }
 
   const job = await JobService.getJobByIdFromDB(jobId);
 
