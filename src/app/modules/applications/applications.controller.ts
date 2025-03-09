@@ -5,9 +5,15 @@ import httpStatus from 'http-status';
 import { ApplicationService } from './applications.service';
 import { ApiError } from '../../errors/apiError';
 import { checkJobExists } from '../../utils/jobHelpers';
+import mongoose from 'mongoose';
 
 const createApplication = catchAsync(async (req: Request, res: Response) => {
   const { job_id } = req.body;
+
+  // Validate if the job_id is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(job_id)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid job ID');
+  }
 
   // Check if job exists first
   await checkJobExists(job_id);
@@ -26,13 +32,18 @@ const createApplication = catchAsync(async (req: Request, res: Response) => {
 
 const getAllApplicationsByJobId = catchAsync(
   async (req: Request, res: Response) => {
-    const jobId = req.params.job_id;
+    const job_id = req.params.job_id;
+
+    // Validate if the job_id is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(job_id)) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid job ID');
+    }
 
     // Check if job exists first
-    await checkJobExists(jobId);
+    await checkJobExists(job_id);
 
     const applications =
-      await ApplicationService.getAllApplicationsByJobIdFromDB(jobId);
+      await ApplicationService.getAllApplicationsByJobIdFromDB(job_id);
 
     sendResponse(res, {
       success: true,
