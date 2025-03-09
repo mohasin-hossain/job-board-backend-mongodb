@@ -4,6 +4,7 @@ import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import { ApiError } from '../../errors/apiError';
+import mongoose from 'mongoose';
 
 const createJob = catchAsync(async (req: Request, res: Response) => {
   const job = await JobService.createJobIntoDB(req.body);
@@ -28,14 +29,14 @@ const getAllJobs = catchAsync(async (req: Request, res: Response) => {
 });
 
 const getJobById = catchAsync(async (req: Request, res: Response) => {
-  const jobId = req.params.id;
+  const job_id = req.params.id;
 
-  // // Validate job ID
-  // if (isNaN(jobId)) {
-  //   throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid Job ID!');
-  // }
+   // Validate if the job_id is a valid ObjectId
+   if (!mongoose.Types.ObjectId.isValid(job_id)) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid job ID');
+  }
 
-  const job = await JobService.getJobByIdFromDB(jobId);
+  const job = await JobService.getJobByIdFromDB(job_id);
 
   sendResponse(res, {
     success: !!job,
